@@ -16,13 +16,13 @@ def loadJSON(f):
 
 def loadImage(image_url, image_name):
 	try:
-    	response = requests.get(image_url)  
+		response = requests.get(image_url)
 	except:
-    	print('Error')    
+		print('Error')
 	else:
-    	if response.status_code == 200:
-        	with open('.jpg', 'wb') as f:
-            	f.write(response.content)
+		if response.status_code == 200:
+			with open('.jpg', 'wb') as f:
+				f.write(response.content)
 def main():
 	downloaded_dict = {}
 	num = 0

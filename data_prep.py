@@ -21,17 +21,23 @@ def format_caption(text):
 
 def format_data(data):
     full_data = {}
-    for post in data:
+    for i, post in enumerate(data):
+        # if i == 0:
+        #     print('post type', post["type"])
+        #     print('post sponsored', post["isSponsored"])
+        #     print('len hashtags', len(post["hashtags"]))
         # if (post["type"] == "Image" or post["type"] == "Sidecar") and not post["isSponsored"] and not post["paidPartnership"] and "#ad" not in post["hashtags"]:
-        if (post["type"] == "Image" or post["type"] == "Sidecar") and not post["isSponsored"] and not post["paidPartnership"] and len(post["hashtags"]) == 0:
-            caption = format_caption(post["caption"])
-            for image in post["Images"]:
-                full_data[image] = {"true_caption": caption}
+        if (post["type"] == "Image" or post["type"] == "Sidecar") and not post["isSponsored"] and len(post["hashtags"]) == 0:
+            if ("paidPartnership" in post and not post["paidPartnership"]) or "paidPartnership" not in post:
+                caption = format_caption(post["caption"])
+                for image in post["images"]:
+                    full_data[image] = {"true_caption": caption}
+    return full_data
 
 def main():
-    data = loadJSON('xxx.json')
+    data = loadJSON('celeb_data.json')
     data = format_data(data)
-    saveAsJSON('full_data.json', data)
+    saveAsJSON('processed_celeb_data.json', data)
 
 if __name__ == '__main__':
     main()

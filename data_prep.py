@@ -3,10 +3,20 @@ import re
 import json
 
 
+
 def load_text(filename):
     f = open(filename, "r")
     return f.read()
 
+def get_text(filename):
+    text = load_text(filename).replace('\n', '')
+    #clean
+    tokens = text.split()
+    for i in range(len(tokens)):
+        if tokens[i].startswith('@'):
+            tokens[i] = '<NAME>'
+    return ' '.join(tokens)
+    
 def load_data(directory):
     data = {}
     #get strings of filename for each img as key to data dict
@@ -20,7 +30,7 @@ def load_data(directory):
         f = os.path.join(directory, filename)
         if f.endswith('.txt'):
             #get text
-            caption = load_text(f).replace('\n', '')
+            caption = get_text(f)
             stripped_f = f.replace('.txt', '')
             #find images associated with caption and add to data dict
             for img_f in data:

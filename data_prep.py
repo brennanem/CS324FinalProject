@@ -22,7 +22,9 @@ def format_caption(text):
 def format_data(data):
     full_data = {}
     for post in data:
+        #IF CELEBS USE:
         # if (post["type"] == "Image" or post["type"] == "Sidecar") and not post["isSponsored"] and len(post["hashtags"]) == 0:
+        #IF NORMAL PEOPLE USE:
         if (post["type"] == "Image" or post["type"] == "Sidecar") and not post["isSponsored"] and "#ad" not in post["hashtags"]:
             if ("paidPartnership" in post and not post["paidPartnership"]) or "paidPartnership" not in post:
                 caption = format_caption(post["caption"]) if len(post["caption"]) > 0 else '<NO-CAPTION>'
@@ -31,12 +33,16 @@ def format_data(data):
     return full_data
 
 def main():
-    data = loadJSON('normal_ppl_posts_pt1.json')
+    #CHANGE INPUT FILENAME
+    data = loadJSON('rawApifyOutpits/normal_ppl_posts_pt1.json')
     data = format_data(data)
+    #CHANGE OUTPUT FILENAME
     saveAsJSON('processed_normal_ppl_data_pt1.json', data)
 
 if __name__ == '__main__':
     main()
+
+#DONT USE BELOW, OUTDATED FROM EARLIER INTAGRAM SCRAPPER
 
 # def load_text(filename):
 #     f = open(filename, "r")

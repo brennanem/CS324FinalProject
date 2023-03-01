@@ -1,6 +1,7 @@
 import json
 from PIL import UnidentifiedImageError
 from transformers import pipeline
+from PIL import UnidentifiedImageError
 
 image_to_text = pipeline("image-to-text", model="nlpconnect/vit-gpt2-image-captioning")
 
@@ -10,15 +11,16 @@ def read_data(filename):
         return data
     
 
-data_obj = read_data('./processed_celeb_data.json')
+data_obj = read_data('./processed_normal_people_data_pt2.json')
 
-with open("influencerOutput8.json", "w") as outfile:
+
+with open("normal_people_pt2_2_output.json", "w") as outfile:
     for i, img in enumerate(data_obj):
-        if i > 8225:
+        if i < 3250:
             try:
                 plain_text_caption_obj = image_to_text(img)
                 gen_caption = plain_text_caption_obj[0]['generated_text']
-            # is this how they want the data?
+                # is this how they want the data?
                 true_caption = data_obj[img]['true_caption']
                 if (i % 50 == 0):
                     print(i)
@@ -28,5 +30,5 @@ with open("influencerOutput8.json", "w") as outfile:
                 outfile.write(json_object)
             except UnidentifiedImageError:
                 print("skipped image at i = " + str(i))
-            except:
-                print("skipped for another reason " + str(i))
+            except UnidentifiedImageError:
+                print("skipped for another reason" + str(i))

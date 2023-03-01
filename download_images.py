@@ -21,19 +21,20 @@ def loadImage(image_url, image_name):
 		print('Error')
 	else:
 		if response.status_code == 200:
-			with open(image_name + ".jpg", 'wb') as f:
+			with open("./celeb image downloads/" + image_name + ".jpg", 'wb') as f:
 				f.write(response.content)
 def main():
 	downloaded_dict = {}
-	num = 0
+	num = 2974
 	json_dict= loadJSON(JSON_FILE)
-	for image_url in json_dict:
-		image_name = "image_" + str(num)
-		loadImage(image_url, image_name)
-		downloaded_dict[image_name] = json_dict[image_url]
-		if (num % 100 == 0):
-			print("DOWNLOADED ", num, " IMAGES")
-		num += 1
+	for i, image_url in enumerate(json_dict.keys()):
+		if i > num:
+			image_name = "image_" + str(num)
+			loadImage(image_url, image_name)
+			downloaded_dict[image_name] = json_dict[image_url]
+			if (num % 100 == 0):
+				print("DOWNLOADED ", num, " IMAGES")
+			num += 1
 	saveAsJSON("downloaded_celeb_data.json", downloaded_dict)
 
 if __name__ == "__main__":

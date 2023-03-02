@@ -21,9 +21,10 @@ async def main():
                 data_class=FinetuneRequest,
                 data={
                     "model": "FT_GPTJ-6B",
-                    "dataset_url": "https://github.com/brennanem/CS324FinalProject/blob/main/combined_data.jsonl",
+                    "dataset_url": "https://github.com/brennanem/CS324FinalProject/blob/main/finetuning_data_FINAL.jsonl",
                     "arguments": {
                         "total_steps": 200,
+                        "seq_length": 80,
                     }
                 }
             ),

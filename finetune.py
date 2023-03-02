@@ -1,31 +1,43 @@
+import asyncio
 import json
-import requests
-import openai
-import os
+import logging
+import random
+import sys
+from dataclasses import asdict
 
-def finetune(data_filename):
-    #set api key
-    openai.api_key = "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"
-    #upload training data file, and get id
-    file_response = openai.File.create(
-        file=open(data_filename, "rb"),
-        purpose='fine-tune'
-    ) 
-    file_id = file_response["id"]
-    #finetune - following values are current default, we can change them
-    #FIGURE OUT WEIGHTS AND BIASES
-    response = openai.FineTune.create(
-        training_file=file_id,
-        model='curie',
-        n_epochs=4,
-        batch_size=None, #null ~0.2%
-        learning_rate_multiplier=None, #depends on batch size (0.05-0.2)
-        prompt_loss_wight=0.01,
-        suffix='224n-haiku-model'
-    )
+from dacite import from_dict
 
-def main():
-    finetune("clean_data.jsonl")
+from together_web3.computer import FinetuneRequest
+from together_web3.together import ResolveOptions, TogetherWeb3
+
+logger = logging.getLogger(__name__)
+
+
+async def main():
+    try:
+        together_web3 = TogetherWeb3()
+        result = await together_web3.resolve_inference(
+            from_dict(
+                data_class=FinetuneRequest,
+                data={
+                    "model": "FT_OPT-1.3B",
+                    "dataset_url": "https://filedn.eu/lougUsdPvd1uJK2jfOYWogH/datasets/arxiv_hinton.jsonl",
+                    "arguments": {
+                        "total_steps": 200,
+                    }
+                }
+            ),
+            ResolveOptions(
+                match_callback=lambda x: logger.info("MatchEvent: %s", x)
+            )
+        )
+        print(result)
+    except Exception as e:
+        logger.error("Exception: %s", e)
+    finally:
+        await together_web3.close()
+
 
 if __name__ == "__main__":
-    main()
+    logging.basicConfig(level=logging.INFO, stream=sys.stdout)
+    asyncio.run(main())

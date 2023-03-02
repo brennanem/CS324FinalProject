@@ -20,7 +20,7 @@ async def main():
             from_dict(
                 data_class=FinetuneRequest,
                 data={
-                    "model": "FT_OPT-1.3B",
+                    "model": "FT_GPTJ-6B",
                     "dataset_url": "https://github.com/brennanem/CS324FinalProject/blob/main/combined_data.jsonl",
                     "arguments": {
                         "total_steps": 200,

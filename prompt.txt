@@ -11,7 +11,7 @@ caption: three girls in costumes posing for a picture
 gen-z social media caption: film pics
 
 caption: a woman standing on a beach with a surfboard 
-gen-z social media caption: 🫧
+gen-z social media caption: \ud83e\udee7
 
 caption: <ADD-PLAIN-TEXT-CAPTION>
 gen-z social media caption:

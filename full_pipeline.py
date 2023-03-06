@@ -17,7 +17,7 @@ try:
 	plain_text_caption_obj = image_to_text(img)
 	plain_text_caption = plain_text_caption_obj[0]['generated_text']
 	
-	
+
 	prompt = ("" + plain_text_caption)
 
 	try:
@@ -37,7 +37,7 @@ try:
 		print("tokenizer error")
 
 except:
-	print("plaintext image captioning error")
+	print("image error")
 
 
 

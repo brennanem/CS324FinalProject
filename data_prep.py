@@ -2,6 +2,9 @@ import os
 import re
 import json
 
+## This file takes in the raw outputs from Apify and puts the data in a useable format (processed data). This format
+## includes the image URL and the true caption. It also filters out posts that are ads or videos. 
+
 def saveAsJSON(f, d):
     with open(f, "w") as outfile:
         json.dump(d, outfile)
